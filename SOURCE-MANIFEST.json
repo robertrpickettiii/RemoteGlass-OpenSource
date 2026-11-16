@@ -1,7 +1,7 @@
 {
-  "tag": "covered-source-c9a707f6179a1868",
-  "url": "https://github.com/robertrpickettiii/RemoteGlass-OpenSource/releases/tag/covered-source-c9a707f6179a1868",
-  "sourceSHA256": "c9a707f6179a1868649a370516720b87fed8fc3726ff55647a8596a9fdd12559",
+  "tag": "covered-source-7e1c55205ad3b5f5",
+  "url": "https://github.com/robertrpickettiii/RemoteGlass-OpenSource/releases/tag/covered-source-7e1c55205ad3b5f5",
+  "sourceSHA256": "7e1c55205ad3b5f5ec15fe748aac7addb9ea43734977738a7f0ab59b0ab89537",
   "files": {
     "Tools/build-mvs-wasm.py": "e31f9f7b1f66a99c118471bbac4a1b5f6baa28a649f8148778f694dcb802d34a",
     "Vendor/noVNC/AUTHORS": "16ee0ef356d5107a4bc039f91abc99a341dc62b9aa8dd47547a2baed38507509",
@@ -76,7 +76,7 @@
     "Vendor/noVNC-ARD/LICENSE": "511e3229a63ae42e1e1b9abcc658175edf1a7f27bcb217bb6edccbaafd5a67ce",
     "Vendor/noVNC-ARD/REVISION": "4a94f267dd3cd23b66143c85062d911be7ff0d840e25f9b9d956a2f603035a50",
     "Vendor/noVNC-ARD/ard/ard-constants.js": "8c107d8939f74867c84d5708a9706c2226654cf0ceb59c5633bf4f87a03f9474",
-    "Vendor/noVNC-ARD/ard/ard-patch.js": "f516005e7e91e511ed6a0668a819e46ff3389548cf7d27cde335eb64bf086b85",
+    "Vendor/noVNC-ARD/ard/ard-patch.js": "9956d79cc7ae2f04280703a5c1f90dac7bec80563dbbb208d3833e3e4ddccfe1",
     "Vendor/noVNC-ARD/ard/clipboard-formats.js": "cc01e2705d3c9bd05363197d43b9b9024cb0abe53131037a61708ab1e6cf1b09",
     "Vendor/noVNC-ARD/ard/crypto/aes128.js": "413bbeddcc6f7106bb8fa82655419686cb6324213f17e1401eb024876f8d726f",
     "Vendor/noVNC-ARD/ard/crypto/pkcs1.js": "3bab08d9870e0e2c597472f2f06928a5d3fbcae3dbdd167361a3924e1724b324",
@@ -117,7 +117,7 @@
     "Vendor/noVNC-ARD/ard/hp/zlib.js": "e91ee5db291543decbaa3ec5711d64cb4d17372a64e32032c8c918810694f76e",
     "Vendor/noVNC-ARD/ard/keysyms.js": "3f6d24c7c909510572a446bec40ddf006c210cbac2d3610fcafc47c30ffd2be2",
     "Vendor/noVNC-ARD/ard/msgport-transport.js": "7152b4beb8bcb4d3c46059287686f4e13b5c15ea23a53621659d0a557e711ad8",
-    "Vendor/noVNC-ARD/ard/native-file-copy.js": "7ee9399a6b6ee18897f30aab41e06ac869fd41adc8e3c2eb4905570e5e93a702",
+    "Vendor/noVNC-ARD/ard/native-file-copy.js": "a92ca69118856cabba0f21100241c3e800288443de065eeb51be496cc7be26bc",
     "Vendor/noVNC-ARD/ard/reconnect-delay.js": "5f0ccc00d55261dfd39bf69c9b8b8f52043bc049983b396b5299ac7d2d5c6d4a",
     "Vendor/noVNC-ARD/ard/session-select.js": "f1cd6c49be4cfa28849d52f7646424251e76b5d4c4cf342afcc31e43e934dcf4",
     "Vendor/noVNC-ARD/ard/tests/test.crypto.js": "71f96c52474ae76c6da6d2f178f2597cdc0dd25c33f7ab65b7b150058416c714",

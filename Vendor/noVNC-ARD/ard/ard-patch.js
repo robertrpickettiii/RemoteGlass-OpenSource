@@ -1,4 +1,4 @@
-import {handleFileCopy, handleFileOffer, handleServerDrag} from './native-file-copy.js';
+import {handleFileCopy, handleFileOffer, handleServerDrag, buildDropPointer, dropPointerCoordinates} from './native-file-copy.js';
 /*
  * noVNC-ARD: ARD Protocol Monkey-Patch
  *
@@ -1974,6 +1974,18 @@ RFB.prototype._sendMouse = function (x, y, mask) {
     return _origSendMouse.call(this, x, y, mask);
 };
 
+// Keep ordinary mouse/Pencil input unchanged. File drops use the Mac's native
+// event channel so screensharingd can route Finder's destination to this viewer.
+RFB.prototype.ardDropPointer = function (x, y, mask) {
+    if (!this._rfbAppleARD || !this._ardAuthKey || this._rfbConnectionState !== 'connected' || (this._viewOnly && mask !== 0)) throw Error('An authenticated Mac control session is required for file drops.');
+    const point = dropPointerCoordinates(this._ardDisplays || [], this._ardSelectedDisplay, x, y);
+    const payload = buildDropPointer(point.x, point.y, mask, performance.now() * 1000);
+    // macOS replaces its event key when full-session encryption starts.
+    // The inner native event still uses ECB, inside the encrypted record layer.
+    const key = this._ardEncryptionEnabled ? this._ardSessionKey : this._ardAuthKey;
+    RFB.messages.encryptedEvent(this._sock, 3, new AES128ECB(key).encrypt(payload));
+};
+
 // Pixels of wheel delta per scroll line. Purely a feel knob — raise it to
 // scroll slower, lower it to scroll faster. Tuned against Apple Screen
 // Sharing; not derived from the protocol.
@@ -2596,7 +2608,7 @@ RFB.messages.ardViewerInfo = function (sock) {
     bitmap[0]  = 0xb0;
     bitmap[2]  = 0x0c;
     bitmap[3]  = 0x03;
-    bitmap[4]  = 0x90;
+    bitmap[4]  = 0xb0; // drag data, native file copy, and the existing state event
     bitmap[10] = 0x40;
     sock.sQpushBytes(bitmap);
     sock.flush();

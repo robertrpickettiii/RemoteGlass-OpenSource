@@ -1,5 +1,29 @@
 import Inflator from '../../noVNC/core/inflator.js';
 
+// Native mouse events identify the viewer that owns a Mac drag. The legacy
+// RFB pointer message moves the cursor but does not establish that ownership.
+export function buildDropPointer(x, y, mask, timestamp) {
+    if (![x, y].every(Number.isFinite) || x < 0 || y < 0 || x > 32767 || y > 32767 || (mask !== 0 && mask !== 1)) throw Error('Invalid Mac drop coordinates');
+    const bytes = new Uint8Array(16), view = new DataView(bytes.buffer);
+    view.setUint32(6, timestamp >>> 0);
+    bytes[10] = 0xff; bytes[11] = mask;
+    view.setUint16(12, Math.floor(x)); view.setUint16(14, Math.floor(y));
+    return bytes;
+}
+export function dropPointerCoordinates(displays, selected, x, y) {
+    let display = displays.find(d => d.id === selected);
+    if (!display && displays.length > 1) {
+        display = displays.find(d => x >= d.fbX && y >= d.fbY && x < d.fbX + d.w && y < d.fbY + d.h);
+        if (!display) throw Error('Drop onto a Mac display, rather than the space between displays.');
+        const scale = display.scale > 0 ? display.scale : 1;
+        return {x: display.x + (x - display.fbX) / scale - Math.min(...displays.map(d => d.x)),
+                y: display.y + (y - display.fbY) / scale - Math.min(...displays.map(d => d.y))};
+    }
+    display ||= displays[0];
+    const scale = display?.scale > 0 ? display.scale : 1;
+    return {x: x / scale, y: y / scale};
+}
+
 export function handleFileCopy() {
     if (this._sock.rQwait('FileCopy header', 5)) return false;
     const h = this._sock.rQpeekBytes(5);
@@ -20,7 +44,7 @@ export function handleFileOffer() {
     this._sock.rQskipBytes(11);
     try {
         const path = new TextDecoder('utf-8', {fatal: true}).decode(this._sock.rQshiftBytes(size)).replace(/\0$/, '');
-        this.dispatchEvent(new CustomEvent('ardfileoffer', {detail: {path}}));
+        this.dispatchEvent(new CustomEvent('ardfileoffer', {detail: {session: v.getUint32(3), path}}));
     } catch { this._fail('Invalid Mac file offer'); return false; }
     return true;
 }
